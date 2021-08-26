@@ -1,12 +1,13 @@
 const express = require('express');
-const postController = require('../controllers/post.controller');
+const postsController = require('../controllers/post');
+const checkAuthMiddleware = require('../middleware/check-auth');
 
 const router = express.Router();
 
-router.post("/", postController.save);
-router.get("/", postController.index);
-router.get("/:id", postController.show);
-router.patch("/:id", postController.update);
-router.delete("/:id", postController.destroy);
+router.post("/", checkAuthMiddleware.checkAuth, postsController.save);
+router.get("/", postsController.index);
+router.get("/:id", postsController.show);
+router.patch("/:id", checkAuthMiddleware.checkAuth, postsController.update);
+router.delete("/:id", checkAuthMiddleware.checkAuth, postsController.destroy);
 
-module.exports=router;
+module.exports = router;
